@@ -86,7 +86,14 @@ namespace MusicBeePlugin
 
       _discordClient.ArtworkUploadEnabled = _settings.UploadArtwork;
       _discordClient.DiscordId = _settings.DiscordAppId;
+
+      switch (_settings.ArtworkUploader)
+      {
+        case "Imgur":
       UpdateAssetManager(_imgurAssetCachePath, new ImgurUploader(_imgurAlbum, _settings.ImgurClientId));
+          break;
+      }
+      
       ToolStripMenuItem mainMenuItem = (ToolStripMenuItem)_mbApiInterface.MB_AddMenuItem($"mnuTools/{_about.Name}", null, null);
       mainMenuItem.DropDown.Items.Add("Uploader Health", null, ShowUploaderHealth);
 
@@ -138,7 +145,7 @@ namespace MusicBeePlugin
       {
         _discordClient.ArtworkUploadEnabled = _settings.UploadArtwork;
       }
-      if (e.SettingProperty.Equals("ImgurClientId"))
+      if (_settings.ArtworkUploader.Equals("Imgur") && e.SettingProperty.Equals("ImgurClientId"))
       {
         UpdateAssetManager(_imgurAssetCachePath, new ImgurUploader(_imgurAlbum, _settings.ImgurClientId));
       }

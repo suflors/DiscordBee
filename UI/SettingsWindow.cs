@@ -66,6 +66,7 @@ namespace MusicBeePlugin.UI
       checkBoxShowPlayState.Checked = settings.ShowPlayState;
       checkBoxShowOnlyNonPlayingState.Checked = settings.ShowOnlyNonPlayingState;
       checkBoxArtworkUpload.Checked = settings.UploadArtwork;
+      comboBoxArtworkUploader.SelectedIndex = comboBoxArtworkUploader.FindString(settings.ArtworkUploader);
       customButtonLabel.Text = settings.ButtonLabel;
       customButtonUrl.Text = settings.ButtonUrl;
       customButtonToggle.Checked = settings.ShowButton;
@@ -110,6 +111,7 @@ namespace MusicBeePlugin.UI
       _settings.ShowPlayState = checkBoxShowPlayState.Checked;
       _settings.ShowOnlyNonPlayingState = checkBoxShowOnlyNonPlayingState.Checked;
       _settings.UploadArtwork = checkBoxArtworkUpload.Checked;
+      _settings.ArtworkUploader = comboBoxArtworkUploader.SelectedItem.ToString();
       _settings.ButtonUrl = customButtonUrl.Text;
       _settings.ButtonLabel = customButtonLabel.Text;
       _settings.ShowButton = customButtonToggle.Checked;
@@ -124,7 +126,7 @@ namespace MusicBeePlugin.UI
       Hide();
     }
 
-    private bool ValidateInputs()
+    internal bool ValidateInputs()
     {
       bool ContainsDigitsOnly(string s)
       {
@@ -168,9 +170,22 @@ namespace MusicBeePlugin.UI
         return true;
       }
 
-      if (checkBoxArtworkUpload.Checked && textBoxImgurClientId.Text.Length > 0 && !validateImgurClientId())
+      if (checkBoxArtworkUpload.Checked && comboBoxArtworkUploader.SelectedItem != null)
       {
-        return false;
+        comboBoxArtworkUploader.BackColor = Color.White;
+
+        switch (comboBoxArtworkUploader.SelectedItem.ToString())
+        {
+          case "Imgur":
+            if (textBoxImgurClientId.Text.Length > 0 && !validateImgurClientId())
+            {
+              return false;
+            }
+            break;
+          default:
+            comboBoxArtworkUploader.BackColor = Color.PaleVioletRed;
+            return false;
+        }
       }
 
       bool validateUri()
@@ -221,5 +236,20 @@ namespace MusicBeePlugin.UI
     {
       ValidateInputs();
     }
+
+    private void comboBoxArtworkUploader_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      ValidateInputs();
+      if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Imgur"))
+      {
+        labelImgurClientId.Visible = true;
+        textBoxImgurClientId.Visible = true;
+      } else
+      {
+        labelImgurClientId.Visible = false;
+        textBoxImgurClientId.Visible = false;
+      }
+    }
   }
 }
+

@@ -27,6 +27,7 @@ namespace MusicBeePlugin
       {"DiscordAppId", "409394531948298250"}, // prod
       //{"DiscordAppId", "408977077799354379"}, // dev
       {"ImgurClientId", "09bef4c058080cd"},
+      {"ArtworkUploader", "Imgur"},
     };
 
     public event EventHandler<SettingChangedEventArgs> SettingChanged;
@@ -177,6 +178,22 @@ namespace MusicBeePlugin
     {
       get => _uploadArtwork == true;
       set => SetIfChanged("_uploadArtwork", value);
+    }
+
+    [DataMember] private string _artworkUploader;
+
+    public string ArtworkUploader
+    {
+      get => _artworkUploader ?? defaults["ArtworkUploader"];
+      set
+      {
+        if (value?.Equals(defaults["ArtworkUploader"]) == true)
+        {
+          _artworkUploader = null;
+          return;
+        }
+        SetIfChanged("_artworkUploader", value);
+      }
     }
 
     [DataMember] private string _buttonLabel;
