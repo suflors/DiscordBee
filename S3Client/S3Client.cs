@@ -77,8 +77,7 @@ namespace MusicBeePlugin.S3Client
           Key = key,
           Link = $"{GetBaseUrl()}/{key}",
         };
-      }
-      else
+      } else
       {
         return null;
       }
@@ -112,7 +111,22 @@ namespace MusicBeePlugin.S3Client
 
     private string GetBaseUrl()
     {
-      return _config.CustomDomain ?? _config.Endpoint;
+      string url = _config.CustomDomain ?? _config.Endpoint;
+
+      // I was considering removing the url setting above entirely, as it doesn't seem to work. But it may just be my problem, so if it fails, continue to setting it through getting the bucket
+      if (string.IsNullOrEmpty(url))
+      {
+        // Fetch the bucket region
+        var regionResponse = _client.GetBucketLocationAsync(new GetBucketLocationRequest
+        {
+          BucketName = _config.BucketName
+        }).GetAwaiter().GetResult();
+
+        var region = regionResponse.Location?.Value ?? "us-east-1"; // Default to us-east-1 if region is null
+        url = $"https://{_config.BucketName}.s3.{region}.amazonaws.com";
+      }
+
+      return url;
     }
   }
 }

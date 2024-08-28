@@ -1,9 +1,7 @@
 namespace MusicBeePlugin.UI
 {
   using System;
-  using System.Collections.Generic;
   using System.Drawing;
-  using System.Linq;
   using System.Windows.Forms;
 
   public partial class SettingsWindow : Form
@@ -263,17 +261,16 @@ namespace MusicBeePlugin.UI
     {
       ValidateInputs();
 
-      if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Amazon S3"))
-      {
-        labelImgurClientId.Visible = false;
-        textBoxImgurClientId.Visible = false;
-        buttonS3Settings.Visible = true;
-      }
-      else
+      if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Imgur"))
       {
         labelImgurClientId.Visible = true;
         textBoxImgurClientId.Visible = true;
         buttonS3Settings.Visible = false;
+      } else if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Amazon S3"))
+      {
+        labelImgurClientId.Visible = false;
+        textBoxImgurClientId.Visible = false;
+        buttonS3Settings.Visible = true;
       }
     }
 
