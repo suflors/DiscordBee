@@ -266,7 +266,8 @@ namespace MusicBeePlugin.UI
         labelImgurClientId.Visible = true;
         textBoxImgurClientId.Visible = true;
         buttonS3Settings.Visible = false;
-      } else if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Amazon S3"))
+      }
+      else if (comboBoxArtworkUploader.SelectedIndex == comboBoxArtworkUploader.FindString("Amazon S3"))
       {
         labelImgurClientId.Visible = false;
         textBoxImgurClientId.Visible = false;
