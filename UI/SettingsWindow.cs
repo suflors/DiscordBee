@@ -174,7 +174,8 @@ namespace MusicBeePlugin.UI
       {
         if (string.IsNullOrWhiteSpace(_settings.S3AccessKeyId) ||
               string.IsNullOrWhiteSpace(_settings.S3SecretAccessKey) ||
-              string.IsNullOrWhiteSpace(_settings.S3BucketName))
+              string.IsNullOrWhiteSpace(_settings.S3BucketName) ||
+              string.IsNullOrWhiteSpace(_settings.S3Endpoint))
         {
           buttonS3Settings.BackColor = Color.PaleVioletRed;
           return false;
