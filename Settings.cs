@@ -30,7 +30,7 @@ namespace MusicBeePlugin
       {"ArtworkUploader", "Imgur"},
       {"S3AccessKeyId", ""},
       {"S3SecretAccessKey", ""},
-      {"S3Endpoint", "s3.amazonaws.com"},
+      {"S3Endpoint", "s3.us-east-1.com"},
       {"S3BucketName", ""},
       {"S3Prefix", "DiscordBee"},
       {"S3CustomDomain", ""},
