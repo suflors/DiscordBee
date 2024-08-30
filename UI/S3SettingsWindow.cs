@@ -64,7 +64,7 @@ namespace MusicBeePlugin.UI
       customDomain = customDomain.Replace($"{Uri.UriSchemeHttp}://", "").Replace($"{Uri.UriSchemeHttps}://", "");
 
       var scheme = $"{(insecure ? Uri.UriSchemeHttp : Uri.UriSchemeHttps)}://";
-      var baseUrl = string.IsNullOrWhiteSpace(textBoxS3CustomDomain.Text) ? $"{endpoint}/{textBoxS3BucketName.Text}" : customDomain;
+      var baseUrl = string.IsNullOrWhiteSpace(textBoxS3CustomDomain.Text) ? $"{textBoxS3BucketName.Text}.{endpoint}" : customDomain;
       var prefix = string.IsNullOrWhiteSpace(textBoxS3Prefix.Text) ? "" : $"{textBoxS3Prefix.Text}/";
       textBoxUrlPreview.Text = $"{scheme}{baseUrl}/{prefix}example";
     }
@@ -184,7 +184,7 @@ namespace MusicBeePlugin.UI
 
       ResetErrorIndications();
 
-      return true; 
+      return true;
     }
 
     private void ResetErrorIndications()
@@ -249,8 +249,7 @@ namespace MusicBeePlugin.UI
       if (await s3Client.TestConnection())
       {
         MessageBox.Show("Connection successfully established to S3 bucket.", "Test Connection Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-      }
-      else
+      } else
       {
         MessageBox.Show("A connection could not be successfully made to the S3 bucket. Please check your credentials and configuration and try again.", "Test Connection Result", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
@@ -273,7 +272,7 @@ namespace MusicBeePlugin.UI
       _settings.S3Prefix = textBoxS3Prefix.Text;
       _settings.S3CustomDomain = textBoxS3CustomDomain.Text;
 
-      ((SettingsWindow) Owner).ValidateInputs();
+      ((SettingsWindow)Owner).ValidateInputs();
       Close();
     }
   }

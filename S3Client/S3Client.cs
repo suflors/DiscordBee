@@ -13,6 +13,7 @@ namespace MusicBeePlugin.S3Client
   {
     private readonly S3Config _config;
     private readonly AmazonS3Client _client;
+    private readonly string _baseUrl;
 
     public S3Client(S3Config config)
     {
@@ -22,6 +23,7 @@ namespace MusicBeePlugin.S3Client
         ServiceURL = config.Endpoint,
       };
       _client = new AmazonS3Client(config.AccessKeyId, config.SecretAccessKey, clientConfig);
+      _baseUrl = GetBaseUrl();
     }
 
     public async Task<S3Image[]> GetAlbumImages()
@@ -36,7 +38,7 @@ namespace MusicBeePlugin.S3Client
       return response.S3Objects.Select(obj => new S3Image
       {
         Key = obj.Key,
-        Link = $"{GetBaseUrl()}{obj.Key}",
+        Link = $"{_baseUrl}{obj.Key}",
       }).ToArray();
     }
 
@@ -75,7 +77,7 @@ namespace MusicBeePlugin.S3Client
         return new S3Image
         {
           Key = key,
-          Link = $"{GetBaseUrl()}{key}",
+          Link = $"{_baseUrl}{key}",
         };
       } else
       {
